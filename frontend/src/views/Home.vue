@@ -6,7 +6,9 @@
       <h2>Total: {{ meta.pagination.total }}</h2>
       <div class="contact-item" v-for="contact in contacts" :key="contact.id">
         <div class="contact-item-name">
+          <router-link :to="{ name: 'ContactDetail', params: { id: contact.id} }">
           {{ contact.attributes.firstname }} {{ contact.attributes.lastname }}
+          </router-link>
         </div>
         <div class="contact-item-phone">
           {{ contact.attributes.phone }}
@@ -41,13 +43,16 @@ export default {
     };
   },
   mounted() {
-    axios.get("http://localhost:1337/api/contacts").then((response) => {
-      console.log(response);
-      this.contacts = response.data.data;
-      this.meta = response.data.meta;
-    }).catch((error) => {
-      this.error = error;
-    });
+    axios
+      .get("http://localhost:1337/api/contacts")
+      .then((response) => {
+        console.log(response);
+        this.contacts = response.data.data;
+        this.meta = response.data.meta;
+      })
+      .catch((error) => {
+        this.error = error;
+      });
   },
 };
 </script>
